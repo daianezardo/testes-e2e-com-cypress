@@ -32,9 +32,15 @@ describe('Scenarios where authentication is a pre-condition', () => {
       .its('state')
       .should('be.equal', 'Complete')
   })
-  it.only('logs out', () => {
+  it('logs out', () => {
     cy.visit('/')
     cy.wait('@getNotes')
+
+    if (Cypress.config('viewportWidth') < Cypress.env('viewportWidthBreakpoint')) {
+      cy.get('.navbar-toggle.collapsed')
+        .should('be.visible')
+        .click()
+    }
 
     cy.contains('.nav a', 'Logout').click()
 
